@@ -1,5 +1,4 @@
 import 'package:chambas/features/Auth/presentation/cubit/auth_cubit.dart';
-import 'package:chambas/features/Profile/domain/models/profile_model.dart';
 import 'package:chambas/features/Profile/domain/repository/profile_repo_interface.dart';
 import 'package:chambas/features/Profile/presentation/cubit/profile_states.dart';
 import 'package:chambas/features/Storage/domain/storage_repo_interface.dart';

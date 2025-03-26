@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:chambas/components/footer.dart';
 import 'package:chambas/features/Auth/presentation/pages/auth_page.dart';
+import 'package:chambas/features/Business_Account/presentation/pages/business_account_page.dart';
 import 'package:chambas/features/Home/presentation/pages/home_page.dart';
-import 'package:chambas/features/Post/presentation/pages/upload_post_page.dart';
+import 'package:chambas/features/Premium_user/presentation/pages/premium_plans_page.dart';
+import 'package:chambas/features/Premium_user/presentation/pages/premium_user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:chambas/features/Home/presentation/components/home_drawer.dart';
 
@@ -280,6 +282,30 @@ class _WelcomePageState extends State<WelcomePage> {
                                   },
                                   child: const Text('Browse all posts'),
                                 ),
+                                const SizedBox(height: 8.0),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const PremiumPlansPage()),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.orange),
+                                  child: const Text('Go Premium'),
+                                ),
+                                const SizedBox(height: 8.0),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BusinessAccountPage()),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.blue),
+                                  child: const Text('Business Account'),
+                                )
                               ],
                             ),
                           ),
