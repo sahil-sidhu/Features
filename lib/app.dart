@@ -1,7 +1,5 @@
 import 'package:chambas/features/Auth/data/repository/auth_repo_impl.dart';
 import 'package:chambas/features/Auth/presentation/cubit/auth_cubit.dart';
-import 'package:chambas/features/Auth/presentation/cubit/auth_states.dart';
-import 'package:chambas/features/Auth/presentation/pages/auth_page.dart';
 import 'package:chambas/features/Contract/data/contract_repo_impl.dart';
 import 'package:chambas/features/Contract/presentation/cubit/contract_cubit.dart';
 

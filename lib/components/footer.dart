@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FooterWidget extends StatelessWidget {
-  const FooterWidget({Key? key}) : super(key: key);
+  const FooterWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +121,7 @@ class FooterWidget extends StatelessWidget {
 // Simple clickable text link for the footer
 class FooterLink extends StatelessWidget {
   final String text;
-  const FooterLink({Key? key, required this.text}) : super(key: key);
+  const FooterLink({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -150,10 +150,10 @@ class ContactRow extends StatelessWidget {
   final String label;
 
   const ContactRow({
-    Key? key,
+    super.key,
     required this.icon,
     required this.label,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -179,10 +179,10 @@ class SocialIcon extends StatelessWidget {
   final VoidCallback onTap;
 
   const SocialIcon({
-    Key? key,
+    super.key,
     required this.icon,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

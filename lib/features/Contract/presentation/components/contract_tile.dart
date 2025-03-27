@@ -1,7 +1,5 @@
 import 'package:chambas/features/Auth/presentation/cubit/auth_cubit.dart';
 import 'package:chambas/features/Contract/domain/models/contract_model.dart';
-import 'package:chambas/features/Contract/presentation/cubit/contract_cubit.dart';
-import 'package:chambas/features/Contract/presentation/cubit/contract_states.dart';
 import 'package:chambas/features/Profile/presentation/cubit/profile_cubit.dart';
 import 'package:chambas/features/Profile/presentation/cubit/profile_states.dart';
 import 'package:chambas/features/Profile/presentation/pages/profile_page.dart';
