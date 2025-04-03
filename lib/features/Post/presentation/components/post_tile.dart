@@ -7,6 +7,7 @@ import 'package:chambas/features/Post/domain/model/post_model.dart';
 import 'package:chambas/features/Profile/domain/models/profile_model.dart';
 import 'package:chambas/features/Profile/presentation/cubit/profile_cubit.dart';
 import 'package:chambas/features/Profile/presentation/cubit/profile_states.dart';
+import 'package:chambas/features/Review_Rating/presentation/pages/reviews_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -234,7 +235,23 @@ class _PostTileState extends State<PostTile> {
                                 style: const TextStyle(
                                     fontSize: 12, color: Colors.grey),
                               ),
-                              Text("Reviews")
+                               TextButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ReviewPage()),
+    );
+  },
+  child: const Text(
+    "Reviews",
+    style: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.bold,
+      color: Colors.blue, // Optional: make it look like a link
+    ),
+  ),
+),
+
                             ],
                           ),
                         ],
