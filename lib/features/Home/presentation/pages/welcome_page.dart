@@ -291,7 +291,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                             const PremiumPlansPage()),
                                   ),
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.orange),
+                                      backgroundColor: const Color.fromARGB(255, 227, 226, 227)),
                                   child: const Text('Go Premium'),
                                 ),
                                 const SizedBox(height: 8.0),
@@ -303,7 +303,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                             const BusinessAccountPage()),
                                   ),
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.blue),
+                                      backgroundColor: const Color.fromARGB(255, 227, 226, 227)),
                                   child: const Text('Business Account'),
                                 )
                               ],

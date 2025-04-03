@@ -79,7 +79,7 @@ class _SearchPageState extends State<SearchPage> {
           // default
           else {
             return const Center(
-              child: Text("Start searching"),
+              child: Text("Search for users above"),
             );
           }
         },
