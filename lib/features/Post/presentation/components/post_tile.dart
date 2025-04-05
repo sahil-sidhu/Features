@@ -236,21 +236,21 @@ class _PostTileState extends State<PostTile> {
                                     fontSize: 12, color: Colors.grey),
                               ),
                                TextButton(
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ReviewPage()),
-    );
-  },
-  child: const Text(
-    "Reviews",
-    style: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.bold,
-      color: Colors.blue, // Optional: make it look like a link
-    ),
-  ),
-),
+                                onPressed: () {
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const ReviewPage()),
+                                                   );
+                                          },
+                              child: const Text(
+                                    "Reviews",
+                                      style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blue, // Optional: make it look like a link
+                                           ),
+                                          ),
+                                ),
 
                             ],
                           ),
