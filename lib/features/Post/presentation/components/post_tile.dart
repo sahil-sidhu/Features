@@ -162,10 +162,23 @@ class _PostTileState extends State<PostTile> {
                                     : () {
                                         final matchCubit =
                                             context.read<MatchCubit>();
+                                        final requesterId = currentUser!.uid;
+                                        final requestedId = widget.post.userId;
+                                        final senderId = requesterId;
+                                        final receiverId = requestedId;
+                                        final postId = widget.post.postId;
+                                        final requesterRole = currentUser!
+                                            .toString()
+                                            .split('.')
+                                            .last;
                                         matchCubit.requestMatch(
-                                            currentUser!.uid,
-                                            widget.post.userId,
-                                            "client");
+                                          requesterId,
+                                          requestedId,
+                                          senderId,
+                                          receiverId,
+                                          postId,
+                                          requesterRole,
+                                        );
 
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
@@ -235,23 +248,25 @@ class _PostTileState extends State<PostTile> {
                                 style: const TextStyle(
                                     fontSize: 12, color: Colors.grey),
                               ),
-                               TextButton(
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ReviewPage()),
-    );
-  },
-  child: const Text(
-    "Reviews",
-    style: TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.bold,
-      color: Colors.blue, // Optional: make it look like a link
-    ),
-  ),
-),
-
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const ReviewPage()),
+                                  );
+                                },
+                                child: const Text(
+                                  "Reviews",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors
+                                        .blue, // Optional: make it look like a link
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ],

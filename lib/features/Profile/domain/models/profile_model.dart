@@ -39,8 +39,11 @@ class ProfileModel extends UserModel {
   final DateTime dateCreated;
 
   ProfileModel({
-    required super.uid,
-    required super.email,
+    required String uid,
+    required String email,
+    String username = '',
+    String? photoUrl,
+    String userType = 'normal',
     required this.firstName,
     required this.lastName,
     this.profilePicturePath,
@@ -63,7 +66,13 @@ class ProfileModel extends UserModel {
     this.friendsList = const [],
     this.portfolioImages = const [],
     required this.dateCreated,
-  });
+  }) : super(
+          uid: uid,
+          email: email,
+          username: username,
+          photoUrl: photoUrl,
+          userType: userType,
+        );
 
   // Location
   String get location {
@@ -107,6 +116,9 @@ class ProfileModel extends UserModel {
     return ProfileModel(
         uid: uid,
         email: email,
+        username: username,
+        photoUrl: photoUrl,
+        userType: userType,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         profilePicturePath: profilePicturePath ?? this.profilePicturePath,
@@ -137,6 +149,9 @@ class ProfileModel extends UserModel {
     return {
       "uid": uid,
       "email": email,
+      "username": username,
+      "photoUrl": photoUrl,
+      "userType": userType,
       "firstName": firstName,
       "lastName": lastName,
       "profilePicturePath": profilePicturePath,
@@ -167,6 +182,9 @@ class ProfileModel extends UserModel {
     return ProfileModel(
       uid: data['uid'],
       email: data['email'],
+      username: data['username'] ?? '',
+      photoUrl: data['photoUrl'],
+      userType: data['userType'] ?? 'normal',
       firstName: data['firstName'] as String? ?? "",
       lastName: data['lastName'] as String? ?? "",
       profilePicturePath: data['profilePicturePath'] as String?,

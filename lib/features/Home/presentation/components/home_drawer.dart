@@ -37,7 +37,6 @@ class HomeDrawer extends StatelessWidget {
 Widget buildAuthenticatedDrawer(BuildContext context) {
   return Column(
     children: [
-      // logo
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 25.0),
         child: Icon(
@@ -46,104 +45,66 @@ Widget buildAuthenticatedDrawer(BuildContext context) {
           color: Theme.of(context).colorScheme.primary,
         ),
       ),
-
-      // divider line
-      Divider(
-        color: Theme.of(context).colorScheme.primary,
-      ),
-
-      // settings tile
+      Divider(color: Theme.of(context).colorScheme.primary),
       MyDrawerTile(
         title: "HOME",
         icon: Icons.home,
         onTap: () {
-          // pop menu drawer
           Navigator.of(context).pop();
-
-          // navigate to the profile page
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WelcomePage(),
-              ));
+              context, MaterialPageRoute(builder: (context) => WelcomePage()));
         },
       ),
-      // home tile
       MyDrawerTile(
-          title: "POSTS",
-          icon: Icons.post_add,
-          onTap: () {
-            Navigator.of(context).pop();
-
-            // navigate to the profile page
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                ));
-          }),
-
-      // profile tile
+        title: "POSTS",
+        icon: Icons.post_add,
+        onTap: () {
+          Navigator.of(context).pop();
+          Navigator.pushNamed(context, '/posts');
+        },
+      ),
       MyDrawerTile(
         title: "PROFILE",
         icon: Icons.person,
         onTap: () {
-          // pop menu drawer
           Navigator.of(context).pop();
-
-          // get current user's id
           final user = context.read<AuthCubit>().currentUser;
           String? uid = user!.uid;
-
-          // navigate to the profile page
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProfilePage(
-                  uid: uid,
-                ),
-              ));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ProfilePage(uid: uid)));
         },
       ),
-
-      // search tile
       MyDrawerTile(
         title: "SEARCH",
         icon: Icons.search,
         onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SearchPage(),
-          ),
-        ),
+            context, MaterialPageRoute(builder: (context) => SearchPage())),
       ),
-
-      // settings tile
       MyDrawerTile(
         title: "TRANSACTIONS",
         icon: Icons.assignment,
         onTap: () {
-          // pop menu drawer
           Navigator.of(context).pop();
-
-          // get current user's id
           final user = context.read<AuthCubit>().currentUser;
           String? uid = user!.uid;
-
-          // navigate to the profile page
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TransactionsPage(
-                  uid: uid,
-                ),
-              ));
+                  builder: (context) => TransactionsPage(uid: uid)));
         },
       ),
-
+      const Divider(),
+      MyDrawerTile(
+        title: "GO TO PREMIUM",
+        icon: Icons.workspace_premium,
+        onTap: () => Navigator.pushNamed(context, '/premium'),
+      ),
+      MyDrawerTile(
+        title: "BUSINESS ACCOUNT",
+        icon: Icons.business,
+        onTap: () => Navigator.pushNamed(context, '/business'),
+      ),
       const Spacer(),
-
-      // logout tile
       MyDrawerTile(
         title: "LOGOUT",
         icon: Icons.logout,
@@ -157,7 +118,6 @@ Widget buildAuthenticatedDrawer(BuildContext context) {
 Widget buildUnauthenticatedDrawer(BuildContext context) {
   return Column(
     children: [
-      // logo
       Padding(
         padding: const EdgeInsets.symmetric(vertical: 25.0),
         child: Icon(
@@ -166,64 +126,47 @@ Widget buildUnauthenticatedDrawer(BuildContext context) {
           color: Theme.of(context).colorScheme.primary,
         ),
       ),
-
-      // divider line
-      Divider(
-        color: Theme.of(context).colorScheme.primary,
-      ),
-      // settings tile
+      Divider(color: Theme.of(context).colorScheme.primary),
       MyDrawerTile(
         title: "HOME",
         icon: Icons.home,
         onTap: () {
-          // pop menu drawer
           Navigator.of(context).pop();
-
-          // navigate to the profile page
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WelcomePage(),
-              ));
+              context, MaterialPageRoute(builder: (context) => WelcomePage()));
         },
       ),
-      // home tile
       MyDrawerTile(
-          title: "POSTS",
-          icon: Icons.post_add,
-          onTap: () {
-            Navigator.of(context).pop();
-
-            // navigate to the profile page
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(),
-                ));
-          }),
-
-      // search tile
+        title: "POSTS",
+        icon: Icons.post_add,
+        onTap: () {
+          Navigator.of(context).pop();
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => HomePage()));
+        },
+      ),
       MyDrawerTile(
         title: "SEARCH",
         icon: Icons.search,
         onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SearchPage(),
-          ),
-        ),
+            context, MaterialPageRoute(builder: (context) => SearchPage())),
       ),
-
-      // settings tile
       MyDrawerTile(
         title: "LOG IN / REGISTER",
         icon: Icons.settings,
         onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AuthPage(),
-          ),
-        ),
+            context, MaterialPageRoute(builder: (context) => AuthPage())),
+      ),
+      const Divider(),
+      MyDrawerTile(
+        title: "GO TO PREMIUM",
+        icon: Icons.workspace_premium,
+        onTap: () => Navigator.pushNamed(context, '/premium'),
+      ),
+      MyDrawerTile(
+        title: "BUSINESS ACCOUNT",
+        icon: Icons.business,
+        onTap: () => Navigator.pushNamed(context, '/business'),
       ),
     ],
   );

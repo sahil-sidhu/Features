@@ -15,33 +15,29 @@ class PostCubit extends Cubit<PostState> {
     required this.storageRepo,
   }) : super(PostInitial());
 
+  // Load posts (alias to fetchAllPosts for external use)
+  void loadPosts() {
+    fetchAllPosts();
+  }
+
   // create a new post
   Future<void> createPost(PostModel post,
       {String? imagePath, Uint8List? imageBytes}) async {
     String? imageUrl;
 
     try {
-      // handle image upload for mobile platforms using file path
       if (imagePath != null) {
         emit(PostUploading());
         imageUrl =
             await storageRepo.uploadPostImageMobile(imagePath, post.postId);
-      }
-
-      // handle image upload for web
-      else if (imageBytes != null) {
+      } else if (imageBytes != null) {
         emit(PostUploading());
         imageUrl =
             await storageRepo.uploadPostImageWeb(imageBytes, post.postId);
       }
 
-      // give image url to post
       final newPost = post.update(imageUrl: imageUrl);
-
-      // create post in the backend
-      postRepo.createPost(newPost);
-
-      // re-fetch all postst
+      await postRepo.createPost(newPost);
       fetchAllPosts();
     } catch (e) {
       emit(PostError(message: "Error creating post: $e"));
@@ -64,7 +60,7 @@ class PostCubit extends Cubit<PostState> {
     try {
       emit(PostLoading());
       await postRepo.deletePost(postId);
-      fetchAllPosts(); // might need to remove this later since this is from copilot and not the tutorial
+      fetchAllPosts();
     } catch (e) {
       emit(PostError(message: "Error deleting post: $e"));
     }

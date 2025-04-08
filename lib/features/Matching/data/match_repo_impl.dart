@@ -11,7 +11,13 @@ class MatchRepoImpl implements MatchRepoInterface {
 
   @override
   Future<MatchRequestModel> requestMatch(
-      String requesterId, String requestedId, String requesterRole) async {
+    String requesterId,
+    String requestedId,
+    String senderId,
+    String receiverId,
+    String postId,
+    String requesterRole,
+  ) async {
     try {
       final matchDocRef =
           FirebaseFirestore.instance.collection('matches').doc();
@@ -20,6 +26,9 @@ class MatchRepoImpl implements MatchRepoInterface {
         matchId: matchDocRef.id,
         requesterId: requesterId,
         requestedId: requestedId,
+        senderId: senderId,
+        receiverId: receiverId,
+        postId: postId,
         status: 'pending',
         requestDate: DateTime.now(),
         requesterRole:
@@ -44,18 +53,15 @@ class MatchRepoImpl implements MatchRepoInterface {
         throw Exception("Match not found");
       }
 
-      // Update match status
       await matchRef.update({
         "status": "accepted",
         "acceptedDate": DateTime.now(),
       });
 
-      // Fetch match details
       Map<String, dynamic> matchData =
           matchSnapshot.data() as Map<String, dynamic>;
       String requesterId = matchData["requesterId"];
 
-      // Update both users' profiles with the matchId
       await _profilesCollection.doc(receiverId).update({
         "matches": FieldValue.arrayUnion([matchId])
       });
@@ -77,8 +83,6 @@ class MatchRepoImpl implements MatchRepoInterface {
         "status": "declined",
         "declinedDate": DateTime.now(),
       });
-
-      // No need to update profile since the match was declined
     } catch (e) {
       throw Exception("Error declining match: $e");
     }
@@ -120,7 +124,6 @@ class MatchRepoImpl implements MatchRepoInterface {
         "cancelledDate": newStatus == "cancelled" ? DateTime.now() : null,
       });
 
-      // Get updated match
       DocumentSnapshot updatedMatch = await matchRef.get();
       return MatchRequestModel.fromFireStore(
           updatedMatch.data() as Map<String, dynamic>);

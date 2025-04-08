@@ -7,13 +7,31 @@ class MatchCubit extends Cubit<MatchState> {
 
   MatchCubit({required this.matchRepo}) : super(MatchInitial());
 
-  // Send request
+  // Send request and refresh both sent/received matches
   Future<void> requestMatch(
-      String requesterId, String requestedId, String requesterRole) async {
+    String requesterId,
+    String requestedId,
+    String senderId,
+    String receiverId,
+    String postId,
+    String requesterRole,
+  ) async {
     try {
       emit(MatchLoading());
-      final matchRequest =
-          await matchRepo.requestMatch(requesterId, requestedId, requesterRole);
+      final matchRequest = await matchRepo.requestMatch(
+        requesterId,
+        requestedId,
+        senderId,
+        receiverId,
+        postId,
+        requesterRole,
+      );
+
+      // Refresh both sides after sending
+      final sentMatches = await matchRepo.getSentMatches(senderId);
+      final receivedMatches = await matchRepo.getIncomingMatches(receiverId);
+
+      emit(MatchesLoaded([...sentMatches, ...receivedMatches]));
       emit(MatchRequested(matchRequest));
     } catch (e) {
       emit(MatchError("$e"));
@@ -36,8 +54,7 @@ class MatchCubit extends Cubit<MatchState> {
     try {
       emit(MatchLoading());
       await matchRepo.declineMatch(matchId, receiverId);
-      emit(
-          MatchCanceled(matchId)); // Use MatchUpdated to indicate status change
+      emit(MatchCanceled(matchId));
     } catch (e) {
       emit(MatchError("$e"));
     }
@@ -84,7 +101,7 @@ class MatchCubit extends Cubit<MatchState> {
       if (match != null) {
         emit(SingleMatchLoaded(match));
       } else {
-        emit(MatchEmpty()); // Handle the case where match doesn't exist
+        emit(MatchEmpty());
       }
     } catch (e) {
       emit(MatchError("$e"));

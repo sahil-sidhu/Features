@@ -13,44 +13,43 @@ class MatchesSentPage extends StatefulWidget {
 }
 
 class _MatchesSentPageState extends State<MatchesSentPage> {
-  late final matchCubit = context.read<MatchCubit>();
-
   @override
   void initState() {
     super.initState();
-    // Fetch the outgoing matches for the current user (uid)
-    matchCubit.getSentMatches(widget.uid);
+    context.read<MatchCubit>().getSentMatches(widget.uid);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Sent Matches'),
-      ),
-      body: BlocBuilder<MatchCubit, MatchState>(builder: (context, state) {
-        if (state is MatchLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is MatchesLoaded) {
-          return ListView.builder(
-            itemCount: state.matches.length,
-            itemBuilder: (context, index) {
-              final match = state.matches[index];
-              return MatchUserTile(
-                user: match,
-                isSent: true, // NEW: Mark as sent match
-              );
-            },
-          );
-        } else if (state is MatchEmpty) {
-          return const Center(child: Text('No matches found'));
-        } else if (state is MatchError) {
-          return Center(child: Text('Error: ${state.message}'));
-        } else {
-          return const Center(child: Text('Error fetching matches'));
+    return BlocBuilder<MatchCubit, MatchState>(builder: (context, state) {
+      if (state is MatchLoading) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (state is MatchesLoaded) {
+        final sentMatches = state.matches
+            .where((match) => match.senderId == widget.uid)
+            .toList();
+
+        if (sentMatches.isEmpty) {
+          return const Center(child: Text('No sent match requests'));
         }
-      }),
-    );
+
+        return ListView.builder(
+          itemCount: sentMatches.length,
+          itemBuilder: (context, index) {
+            final match = sentMatches[index];
+            return MatchUserTile(
+              user: match,
+              isSent: true,
+            );
+          },
+        );
+      } else if (state is MatchEmpty) {
+        return const Center(child: Text('No sent matches'));
+      } else if (state is MatchError) {
+        return Center(child: Text('Error: ${state.message}'));
+      } else {
+        return const Center(child: Text('Unexpected error'));
+      }
+    });
   }
 }

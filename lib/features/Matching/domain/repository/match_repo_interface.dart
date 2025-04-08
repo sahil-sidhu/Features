@@ -2,8 +2,8 @@ import 'package:chambas/features/Matching/domain/models/match_request_model.dart
 
 abstract class MatchRepoInterface {
   // Request a match
-  Future<MatchRequestModel> requestMatch(
-      String requesterId, String requestedId, String requesterRole);
+  Future<MatchRequestModel> requestMatch(String requesterId, String requestedId,
+      String senderId, String receiverId, String postId, String requesterRole);
 
   // Accept a match (receiver accepts the request)
   Future<void> acceptMatch(String matchId, String receiverId);

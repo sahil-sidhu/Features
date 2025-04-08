@@ -8,6 +8,7 @@ class PostRepoImpl implements PostRepoInteface {
   // Store the posts in a collection called 'posts'
   final CollectionReference postsCollection =
       FirebaseFirestore.instance.collection('posts');
+
   @override
   Future<void> createPost(PostModel post) async {
     try {
@@ -25,16 +26,15 @@ class PostRepoImpl implements PostRepoInteface {
   @override
   Future<List<PostModel>> fetchAllPosts() async {
     try {
-      // get all posts with most recent posts at the top, convert this to get by radius later since these will be the job posts
       final postsSnapshot =
           await postsCollection.orderBy('timestamp', descending: true).get();
 
-      // convert each firestore document from a json to a list of posts
-      final List<PostModel> allPosts = postsSnapshot.docs
-          .map((doc) =>
-              PostModel.fromFireStore(doc.data() as Map<String, dynamic>))
-          .toList();
+      final List<PostModel> allPosts = postsSnapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return PostModel.fromFireStore(data);
+      }).toList();
 
+      print("Fetched ${allPosts.length} posts from Firestore");
       return allPosts;
     } catch (e) {
       throw Exception("Error fetching posts: $e");
@@ -44,15 +44,13 @@ class PostRepoImpl implements PostRepoInteface {
   @override
   Future<List<PostModel>> fetchUserPostsByUserId(String userId) async {
     try {
-      // fetch posts snapshot with this uid
       final postsSnpashot =
           await postsCollection.where('userId', isEqualTo: userId).get();
 
-      // map firestone document to a list of posts
-      final List<PostModel> userPosts = postsSnpashot.docs
-          .map((doc) =>
-              PostModel.fromFireStore(doc.data() as Map<String, dynamic>))
-          .toList();
+      final List<PostModel> userPosts = postsSnpashot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return PostModel.fromFireStore(data);
+      }).toList();
 
       return userPosts;
     } catch (e) {

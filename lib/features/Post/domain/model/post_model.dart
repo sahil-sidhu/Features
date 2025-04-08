@@ -9,6 +9,7 @@ class PostModel {
   final String? imageUrl;
   final bool isAvailable;
   final DateTime timestamp;
+  final double? rating;
 
   PostModel({
     required this.postId,
@@ -19,6 +20,7 @@ class PostModel {
     this.imageUrl,
     required this.isAvailable,
     required this.timestamp,
+    this.rating,
   });
 
   /// Creates a new instance with updated fields
@@ -68,6 +70,7 @@ class PostModel {
       imageUrl: data['imageUrl'],
       isAvailable: data['isAvailable'] ?? false,
       timestamp: (data['timestamp'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      rating: (data['rating'] as num?)?.toDouble(),
     );
   }
 }

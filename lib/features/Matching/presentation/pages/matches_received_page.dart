@@ -13,46 +13,45 @@ class MatchesReceivedPage extends StatefulWidget {
 }
 
 class _MatchesReceivedPageState extends State<MatchesReceivedPage> {
-  late final matchCubit = context.read<MatchCubit>();
-
   @override
   void initState() {
     super.initState();
-    // Fetch the incoming matches for the current user (uid)
-    matchCubit.getIncomingMatches(widget.uid);
+    context.read<MatchCubit>().getIncomingMatches(widget.uid);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Received Matches'),
-      ),
-      body: BlocBuilder<MatchCubit, MatchState>(
-        builder: (context, state) {
-          if (state is MatchLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is MatchesLoaded) {
-            return ListView.builder(
-              itemCount: state.matches.length,
-              itemBuilder: (context, index) {
-                final match = state.matches[index];
-                return MatchUserTile(
-                  user: match,
-                  isSent: false, // NEW: Mark as received match
-                );
-              },
-            );
-          } else if (state is MatchEmpty) {
-            return const Center(child: Text('No matches found'));
-          } else if (state is MatchError) {
-            return Center(child: Text('Error: ${state.message}'));
-          } else {
-            return const Center(child: Text('Error fetching matches'));
+    return BlocBuilder<MatchCubit, MatchState>(
+      builder: (context, state) {
+        if (state is MatchLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is MatchesLoaded) {
+          final receivedMatches = state.matches
+              .where((match) => match.receiverId == widget.uid)
+              .toList();
+
+          if (receivedMatches.isEmpty) {
+            return const Center(child: Text('No received match requests'));
           }
-        },
-      ),
+
+          return ListView.builder(
+            itemCount: receivedMatches.length,
+            itemBuilder: (context, index) {
+              final match = receivedMatches[index];
+              return MatchUserTile(
+                user: match,
+                isSent: false,
+              );
+            },
+          );
+        } else if (state is MatchEmpty) {
+          return const Center(child: Text('No received matches'));
+        } else if (state is MatchError) {
+          return Center(child: Text('Error: ${state.message}'));
+        } else {
+          return const Center(child: Text('Unexpected error'));
+        }
+      },
     );
   }
 }
